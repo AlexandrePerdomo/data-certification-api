@@ -1,6 +1,7 @@
 
 from fastapi import FastAPI
 import joblib
+import pandas as pd
 
 app = FastAPI()
 
@@ -35,8 +36,9 @@ def index(acousticness,danceability,duration_ms,energy,
         valence=float(valence),
         artist=artist
 	)
+	data_df = pd.DataFrame(data, index=[0])
 	model = joblib.load('model.joblib')
-	popularity = model.predict(data)
+	popularity = model.predict(data_df)
 
 	return {
 		"artist": artist,
